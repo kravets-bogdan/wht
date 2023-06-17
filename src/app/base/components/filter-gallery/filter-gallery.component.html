@@ -1,0 +1,87 @@
+<section>
+  <aside>
+    <div class="block" *ngIf="isMobileMode ? isShowFilter : true">
+      <form [formGroup]="form">
+        <!-- Breeds -->
+        <mat-form-field>
+          <mat-label>Select breed</mat-label>
+          <mat-select formControlName="breed">
+            <mat-option value="">Ні!</mat-option>
+            <mat-option *ngFor="let cat of breeds" [value]="cat.id">
+              {{ cat.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- Select limit -->
+        <div class="limit">
+          <mat-slider min="0" max="100" step="1">
+            <input matSliderThumb formControlName="limit" [(ngModel)]="limit" />
+          </mat-slider>
+          <h2>
+            {{ limit }}
+          </h2>
+        </div>
+        <!-- Button submit -->
+      </form>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        (click)="loading ? null : getItems()"
+      >
+        Select
+      </button>
+    </div>
+
+    <!-- Burger -->
+    <app-burger
+      *ngIf="isMobileMode"
+      [isOpen]="isShowFilter"
+      (toggle)="isShowFilter = !isShowFilter"
+    ></app-burger>
+  </aside>
+
+  <div class="content">
+    <div class="header">
+      <div>
+        <!-- Button previous -->
+        <button
+          [disabled]="currentPage === 1"
+          (click)="changePage('previous')"
+          mat-raised-button
+          color="primary"
+          class="button"
+          type="button"
+        >
+          Previous
+        </button>
+        <!-- Button next -->
+        <button
+          [disabled]="currentPage >= list.length / 4"
+          (click)="changePage('next')"
+          mat-raised-button
+          color="primary"
+          class="button"
+          type="button"
+        >
+          Next
+        </button>
+      </div>
+
+      <span class="page">Page: {{ currentPage }}</span>
+    </div>
+    <!-- Photo -->
+    <div class="image-block">
+      <div *ngFor="let item of pagedItems">
+        <img class="image" [src]="item.url" alt="cats" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- * Loading -->
+<div class="loading" *ngIf="loading">
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>
