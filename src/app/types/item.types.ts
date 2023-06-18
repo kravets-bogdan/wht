@@ -1,3 +1,3 @@
-export type Item = {
+export type Items = {
   url: string;
 };

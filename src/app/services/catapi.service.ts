@@ -4,7 +4,7 @@ import { Injectable, inject } from '@angular/core';
 
 // * Types
 import { catsBreeds } from '../types/catsBreeds.types';
-import { Item } from '../types/item.types';
+import { Items } from '../types/item.types';
 
 @Injectable()
 export default class CatApiService {
@@ -24,7 +24,7 @@ export default class CatApiService {
     const params = new HttpParams()
       .set('limit', limit.toString())
       .set('breed_ids', breed);
-    return this.http.get<Item[]>(`${this.API}/images/search?`, {
+    return this.http.get<Items[]>(`${this.API}/images/search?`, {
       headers,
       params,
     });

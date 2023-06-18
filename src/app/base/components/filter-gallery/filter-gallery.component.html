@@ -24,10 +24,10 @@
         <!-- Button submit -->
       </form>
       <button
+        (click)="getItems()"
         mat-raised-button
         color="primary"
         type="submit"
-        (click)="loading ? null : getItems()"
       >
         Select
       </button>

@@ -40,7 +40,7 @@ const material = [
 
 // * Types
 import { catsBreeds } from 'src/app/types/catsBreeds.types';
-import { Item } from '../../../types/item.types';
+import { Items } from '../../../types/item.types';
 
 type PageDirection = 'previous' | 'next';
 
@@ -73,9 +73,9 @@ export default class FlterGalleryComponent implements OnInit {
   protected breeds: catsBreeds[] = [];
   protected loading: boolean = false;
   protected selectBreed: string = '';
-  protected pagedItems: Item[] = [];
+  protected pagedItems: Items[] = [];
   protected limit: number = 10;
-  protected list: Item[] = [];
+  protected list: Items[] = [];
   protected form!: FormGroup;
   protected currentPage = 1;
 
@@ -88,7 +88,7 @@ export default class FlterGalleryComponent implements OnInit {
   protected changePage(direction: PageDirection) {
     if (direction === 'previous' && this.currentPage > 1) {
       this.currentPage--;
-    } else if (direction === 'next') {
+    } else {
       this.currentPage++;
     }
     this.itemsOnPage();
@@ -106,14 +106,13 @@ export default class FlterGalleryComponent implements OnInit {
           }
           this.currentPage = 1;
           this.list = response;
-          this.isShowFilter = false;
           this.itemsOnPage();
+          this.loading = this.isShowFilter = false;
+          this.cdr.detectChanges();
         },
         error: (errorResponse) => {
           console.log('errorResponse: ', errorResponse);
-        },
-        complete: () => {
-          this.loading = false;
+          this.loading = this.isShowFilter = false;
           this.cdr.detectChanges();
         },
       });
